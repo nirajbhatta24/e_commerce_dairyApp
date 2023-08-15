@@ -16,33 +16,35 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   late AuthViewModel _authViewModel;
 
-  void checkLogin() async{
+  void checkLogin() async {
     String? token = await FirebaseMessaging.instance.getToken();
 
     await Future.delayed(Duration(seconds: 2));
     // check for user detail first
-    try{
+    try {
       await _authViewModel.checkLogin(token);
-      if(_authViewModel.user==null){
+      if (_authViewModel.user == null) {
         Navigator.of(context).pushReplacementNamed("/login");
-      }else{
+      } else {
         NotificationService.display(
           title: "Welcome back",
-          body: "Hello ${_authViewModel.loggedInUser?.name},\n We have been waiting for you.",
+          body:
+              "Hello ${_authViewModel.loggedInUser?.name},\n We have been waiting for you.",
         );
         Navigator.of(context).pushReplacementNamed("/dashboard");
       }
-    }catch(e){
+    } catch (e) {
       Navigator.of(context).pushReplacementNamed("/login");
     }
-
   }
+
   @override
   void initState() {
     _authViewModel = Provider.of<AuthViewModel>(context, listen: false);
     checkLogin();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,11 +52,14 @@ class _SplashScreenState extends State<SplashScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Image.asset("assets/images/splash.gif"),
-              SizedBox(height: 100,),
-              Text("Bazz", style: TextStyle(
-                fontSize: 22
-              ),)
+              Image.asset("assets/images/logoo.jpg"),
+              SizedBox(
+                height: 100,
+              ),
+              Text(
+                "Welcome to Dairy Shop ",
+                style: TextStyle(fontSize: 22),
+              )
             ],
           ),
         ),

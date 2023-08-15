@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dairyshop/models/category_model.dart';
 import 'package:dairyshop/models/product_model.dart';
 import 'package:dairyshop/viewmodels/auth_viewmodel.dart';
@@ -40,6 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
+  @override
   Widget build(BuildContext context) {
     return Consumer3<CategoryViewModel, AuthViewModel, ProductViewModel>(
       builder: (context, categoryVM, authVM, productVM, child) {
@@ -58,18 +60,33 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Positioned.fill(
                   child: Container(
-                    margin: EdgeInsets.only(top: 60),
                     child: RefreshIndicator(
                       onRefresh: refresh,
                       child: SingleChildScrollView(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Image.asset(
-                              "assets/images/first.jpg",
-                              height: 200,
-                              width: double.infinity,
-                              fit: BoxFit.fill,
+                            CarouselSlider(
+                              items: [
+                                Image.asset(
+                                  "assets/images/first.jpg",
+                                  fit: BoxFit.fill,
+                                ),
+                                Image.asset(
+                                  "assets/images/second.jpg",
+                                  fit: BoxFit.fill,
+                                ),
+                                // Add more images as needed
+                              ],
+                              options: CarouselOptions(
+                                height: 200, // Set the height of the slider
+                                viewportFraction: 1.0,
+                                autoPlay: true,
+                                autoPlayInterval: Duration(seconds: 3),
+                                autoPlayAnimationDuration:
+                                    Duration(milliseconds: 800),
+                                autoPlayCurve: Curves.fastOutSlowIn,
+                              ),
                             ),
                             SizedBox(
                               height: 20,
@@ -167,6 +184,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   borderRadius: BorderRadius.circular(5),
                   child: Image.network(
                     e.imageUrl.toString(),
+                    // e.imageUrl!,
                     height: 300,
                     width: double.infinity,
                     fit: BoxFit.cover,
